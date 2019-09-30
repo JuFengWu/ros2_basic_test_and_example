@@ -1,4 +1,4 @@
-# ros2_basic_test_and_example
+# Ros2 basic test and example
 This is a basic example and test for ros2
 
 #### run action
