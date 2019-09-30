@@ -1,0 +1,5 @@
+int32 order  # Request
+---
+int32[] sequence  # Result
+---
+int32[] partial_sequence  # Feedback
