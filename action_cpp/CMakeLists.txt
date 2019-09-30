@@ -20,22 +20,24 @@ include_directories(include
 ${action_test_INCLUDE_DIRS}
 )
 
-add_executable(action_server_member_functions src/member_functions.cpp)
-ament_target_dependencies(action_server_member_functions
+
+add_executable(not_composable_client src/not_composable_client.cpp)
+ament_target_dependencies(not_composable_client
   "rclcpp"
   "rclcpp_action"
-  "example_interfaces")
+  "example_interfaces"
+  "action_test")
 
-add_executable(action_server_member_functions_server src/member_function_server_.cpp)
-ament_target_dependencies(action_server_member_functions_server
+add_executable(action_member_functions_server src/member_function_server.cpp)
+ament_target_dependencies(action_member_functions_server
   "rclcpp"
   "rclcpp_action"
   "example_interfaces"
   "action_test")
 
 install(TARGETS
-  action_server_member_functions
-  action_server_member_functions_server
+  not_composable_client
+  action_member_functions_server
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
