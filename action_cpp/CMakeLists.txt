@@ -28,6 +28,13 @@ ament_target_dependencies(not_composable_client
   "example_interfaces"
   "action_test")
 
+add_executable(not_composable_server src/not_composable_server.cpp)
+ament_target_dependencies(not_composable_server
+  "rclcpp"
+  "rclcpp_action"
+  "example_interfaces"
+  "action_test")
+
 add_executable(action_member_functions_server src/member_function_server.cpp)
 ament_target_dependencies(action_member_functions_server
   "rclcpp"
@@ -37,6 +44,7 @@ ament_target_dependencies(action_member_functions_server
 
 install(TARGETS
   not_composable_client
+  not_composable_server
   action_member_functions_server
   DESTINATION lib/${PROJECT_NAME})
 
