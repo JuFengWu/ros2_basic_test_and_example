@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(topic_pub)
+project(topic_test)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -30,6 +30,17 @@ if(BUILD_TESTING)
   #set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
+
+add_executable(topic_sub_node src/topic_sub.cpp)
+ament_target_dependencies(topic_sub_node
+	"my_msgs"
+	"rclcpp"
+)
+
+install(TARGETS
+	topic_sub_node
+	DESTINATION lib/${PROJECT_NAME}
+)
 
 add_executable(topic_pub_node src/topic_pub.cpp)
 ament_target_dependencies(topic_pub_node
