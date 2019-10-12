@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(topic_test)
+project(service_test)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -31,25 +31,25 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-add_executable(topic_sub_node src/topic_sub.cpp)
-ament_target_dependencies(topic_sub_node
+add_executable(client_topic_node src/client.cpp)
+ament_target_dependencies(client_topic_node
 	"my_msgs"
 	"rclcpp"
 )
 
 install(TARGETS
-	topic_sub_node
+client_topic_node
 	DESTINATION lib/${PROJECT_NAME}
 )
 
-add_executable(topic_pub_node src/topic_pub.cpp)
-ament_target_dependencies(topic_pub_node
+add_executable(service_topic_node src/service.cpp)
+ament_target_dependencies(service_topic_node
 	"my_msgs"
 	"rclcpp"
 )
 
 install(TARGETS
-	topic_pub_node
+service_topic_node
 	DESTINATION lib/${PROJECT_NAME}
 )
 ament_package()
