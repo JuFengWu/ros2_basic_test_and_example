@@ -16,5 +16,10 @@ This is a basic example and test for ros2
 2. Open the other terminal and typ ``ros2 run service_test service_topic_node``
 3. You can see one terminal send service and the other listen it and send result back.
 
+#### run image test
+1. Open the first terminal and type ``ros2 run image_test pub_img``
+2. Open the other terminal and type ``ros2 run image_test sub_img``
+3. You can see one terminal send image information and the other listen it and show the image
+
 #### others
 comming soon!
