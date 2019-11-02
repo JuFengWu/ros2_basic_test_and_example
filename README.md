@@ -21,5 +21,10 @@ This is a basic example and test for ros2
 2. Open the other terminal and type ``ros2 run image_test sub_img``
 3. You can see one terminal send image information and the other listen it and show the image
 
+#### run topic test in python 
+1. Open the first terminal and type ``ros2 run topic_py listener``
+2. Open the other terminal and type ``ros2 run topic_py talker``
+3. You can see one terminal send message and the other listen message by python.
+
 #### others
 comming soon!
