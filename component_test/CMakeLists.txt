@@ -1,11 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 project(component_test)
 
-# Default to C99
-if(NOT CMAKE_C_STANDARD)
-  set(CMAKE_C_STANDARD 99)
-endif()
-
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
@@ -17,9 +12,34 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(my_msgs REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(rclcpp_components REQUIRED)
+#find_package(rcutils REQUIRED)
+
+include_directories(include)
+
+add_library(talker_component SHARED
+  src/talker_component.cpp)
+target_compile_definitions(talker_component
+  PRIVATE "COMPOSITION_BUILDING_DLL")
+ament_target_dependencies(talker_component
+  "rclcpp"
+  "rclcpp_components"
+  "my_msgs")
+rclcpp_components_register_nodes(talker_component "composition::Talker")
+set(node_plugins "${node_plugins}composition::Talker;$<TARGET_FILE:talker_component>\n")
+
+add_library(listener_component SHARED
+  src/listener_component.cpp)
+target_compile_definitions(listener_component
+  PRIVATE "COMPOSITION_BUILDING_DLL")
+ament_target_dependencies(listener_component
+  "rclcpp"
+  "rclcpp_components"
+  "my_msgs")
+rclcpp_components_register_nodes(listener_component "composition::Listener")
+set(node_plugins "${node_plugins}composition::Listener;$<TARGET_FILE:listener_component>\n")
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
