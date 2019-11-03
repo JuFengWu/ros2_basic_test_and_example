@@ -41,6 +41,13 @@ ament_target_dependencies(listener_component
 rclcpp_components_register_nodes(listener_component "composition::Listener")
 set(node_plugins "${node_plugins}composition::Listener;$<TARGET_FILE:listener_component>\n")
 
+install(TARGETS
+  talker_component
+  listener_component
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
