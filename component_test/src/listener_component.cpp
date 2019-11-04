@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <memory>
+#include <string>
 
 #include "rclcpp/rclcpp.hpp"
 #include "my_msgs/msg/robot_status.hpp" 
@@ -18,11 +19,15 @@ namespace composition
     auto callback =
       [this](const typename my_msgs::msg::RobotStatus::SharedPtr robotStatus) -> void
       {
-      std::cout<<"current_joint_position is ";
-            for(unsigned int i=0;i<robotStatus->current_joint_position.size();i++){
-              std::cout<<","<<robotStatus->current_joint_position[i];
-            }
-        std::cout<<std::endl;
+        std::string str;
+        str.append("current_joint_position is ");
+        
+        for(unsigned int i=0;i<robotStatus->current_joint_position.size();i++){
+          str.append(std::to_string(robotStatus->current_joint_position[i]));
+          str.append(",");
+        }
+        str.append("\n");
+        RCLCPP_INFO(this->get_logger(), str);
         std::cout<<"current_joint_velocity is ";
             for(unsigned int i=0;i<robotStatus->current_joint_velocity.size();i++){
               std::cout<<","<<robotStatus->current_joint_velocity[i];

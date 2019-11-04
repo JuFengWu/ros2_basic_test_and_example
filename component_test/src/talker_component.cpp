@@ -41,6 +41,8 @@ namespace composition
     message->current_joint_force.push_back(counter+6);
     //std::flush(std::cout); //it seems doesn;t need this
 
+    RCLCPP_INFO(this->get_logger(), "I Publish something!");
+
     publisher->publish(std::move(message));
     counter++;
   }
