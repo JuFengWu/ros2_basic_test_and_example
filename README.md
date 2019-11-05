@@ -35,5 +35,10 @@ This is a basic example and test for ros2
 2. Open the other terminal and type ``ros2 run topic_py talker``
 3. You can see one terminal send message and the other listen message by python.
 
+#### run component
+1. Open the first terminal and type ``ros2 run rclcpp_components component_container``
+2. Open the second termianl and type ``ros2 component load /ComponentManager component_test composition::Talker``, the talker will start to work.
+3. Using the second terminal again and type ``ros2 component load /ComponentManager component_test composition::Listener``, the listener will listen what the talker says.
+
 #### others
 comming soon!
