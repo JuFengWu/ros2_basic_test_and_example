@@ -19,25 +19,31 @@ namespace composition
     auto callback =
       [this](const typename my_msgs::msg::RobotStatus::SharedPtr robotStatus) -> void
       {
-        std::string str;
-        str.append("current_joint_position is ");
+        std::string positionStr;
+        positionStr.append("current_joint_position is ");
         
         for(unsigned int i=0;i<robotStatus->current_joint_position.size();i++){
-          str.append(std::to_string(robotStatus->current_joint_position[i]));
-          str.append(",");
+          positionStr.append(std::to_string(robotStatus->current_joint_position[i]));
+          positionStr.append(",");
         }
-        str.append("\n");
-        RCLCPP_INFO(this->get_logger(), str);
-        std::cout<<"current_joint_velocity is ";
-            for(unsigned int i=0;i<robotStatus->current_joint_velocity.size();i++){
-              std::cout<<","<<robotStatus->current_joint_velocity[i];
-            }
-        std::cout<<std::endl;
-        std::cout<<"current_joint_force is ";
-            for(unsigned int i=0;i<robotStatus->current_joint_force.size();i++){
-              std::cout<<","<<robotStatus->current_joint_force[i];
-            }
-        std::cout<<std::endl;
+        RCLCPP_INFO(this->get_logger(), positionStr);
+
+        std::string velocityStr;
+        velocityStr.append("current_joint_velocity is ");
+        
+        for(unsigned int i=0;i<robotStatus->current_joint_velocity.size();i++){
+          velocityStr.append(std::to_string(robotStatus->current_joint_velocity[i]));
+          velocityStr.append(",");
+        }
+        RCLCPP_INFO(this->get_logger(),velocityStr);
+        
+        std::string forceStr;
+        forceStr.append("current_joint_force is ");
+        for(unsigned int i=0;i<robotStatus->current_joint_force.size();i++){
+          forceStr.append(std::to_string(robotStatus->current_joint_force[i]));
+          forceStr.append(",");
+        }
+        RCLCPP_INFO(this->get_logger(),forceStr);
         //std::flush(std::cout); it seems doesn't need this?
       };
 
