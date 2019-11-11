@@ -44,7 +44,7 @@ This is a basic example and test for ros2
 1. Open the first terminal and type ``ros2 run lifecycle lifecycle_listener`` 
 2. Open the second terminal and type ``ros2 run lifecycle lifecycle_talker``
 3. Open the third terminal and type ``ros2 run lifelifecycle_controller``
-4. In the third terminal, you can choose which node state do you want to move.
+4. In the third terminal, you can choose which node state do you want to move.<br/>
 :warning: Before choose the node state, please read the ros2 node life cycle design on [this page](http://design.ros2.org/articles/node_lifecycle.html). If you switch the node state without follow the rules, it will show up some errors or warnings.
 
 #### Others
