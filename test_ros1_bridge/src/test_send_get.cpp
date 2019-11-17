@@ -13,7 +13,7 @@ private:
         std::cout<<"Hear trajectory"<<std::endl;
 
         std::cout<<"trajectory.points size is"<<msg->points.size()<<std::endl; // error is there
-        for(unsigned int i=0; i<msg->points[0].positions.size();i++){
+        for(unsigned int i=0; i<msg->points[0].positions.size();i++){          // TODO: chnage hear way because sorted before
           std::cout<<"hope no error"<<std::endl;
           for(unsigned int j=0;i<msg->points.size();j++){
             std::cout<<"J"<<j<<":"<<msg->points[j].positions[i]<<",";
@@ -38,7 +38,7 @@ private:
   void talker_thread(rclcpp::Node::SharedPtr node){
     auto jointStatePublisher = node->create_publisher<sensor_msgs::msg::JointState>("bridge_jointState_to_ros1",rclcpp::QoS(10));
     auto cartesianPublisher = node->create_publisher<geometry_msgs::msg::Pose>("bridge_pose_to_ros1", rclcpp::QoS(10));
-    rclcpp::WallRate loop_rate(1s);
+    rclcpp::WallRate loop_rate(2s);
 	int counter=0;
     std::vector<double> jointTarget{0.0,0.0,0.0,0.0,0.0,0.0};
     
