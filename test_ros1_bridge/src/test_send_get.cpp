@@ -7,18 +7,20 @@
 using namespace std::chrono_literals;
 class TestBridgeSendAndGet{
 private:
-  void listen_thread(rclcpp::Node::SharedPtr node){
+  void listen_thread(){
     
+    auto node = rclcpp::Node::make_shared("test_talk_from_ros1");
+
     auto callBackCurrentPosition =[this](const trajectory_msgs::msg::JointTrajectory::SharedPtr msg) -> void{
         std::cout<<"Hear trajectory"<<std::endl;
 
         std::cout<<"trajectory.points size is"<<msg->points.size()<<std::endl; // error is there
-        for(unsigned int i=0; i<msg->points[0].positions.size();i++){          // TODO: chnage hear way because sorted before
-          std::cout<<"hope no error"<<std::endl;
-          for(unsigned int j=0;i<msg->points.size();j++){
-            std::cout<<"J"<<j<<":"<<msg->points[j].positions[i]<<",";
+        for(unsigned int i=0; i<msg->points.size();i++){          
+          std::cout<<"points "<<i<<"are ";
+          for(unsigned int j=0;j<msg->points[i].positions.size();j++){
+            std::cout<<msg->points[j].positions[i]<<",";
           }
-        std::cout<<std::endl;
+          std::cout<<std::endl;
         }
 
     };
@@ -27,9 +29,9 @@ private:
         std::cout<<"current position is hear!!"<<std::endl;
         std::cout<<"pose is x:"<< msg->position.x<<",y:"<< msg->position.y<<",z:"<<msg->position.z;
     };
-    auto currentPositionSub = node->create_subscription<geometry_msgs::msg::Pose>("bridge_pose_to_ros2",10,callBackCurrentPosition);
+    auto currentPositionSub = node->create_subscription<geometry_msgs::msg::Pose>("bridge_pose_to_ros2",10,callBackJointTrajector);
         
-    auto jointTrajectorySub = node->create_subscription<trajectory_msgs::msg::JointTrajectory>("bridge_trajectory_to_ros2", 10,callBackJointTrajector);
+    auto jointTrajectorySub = node->create_subscription<trajectory_msgs::msg::JointTrajectory>("bridge_trajectory_to_ros2", 10,callBackCurrentPosition);
 
     rclcpp::spin(node);
     
@@ -67,7 +69,7 @@ private:
   }
 public:
   TestBridgeSendAndGet(rclcpp::Node::SharedPtr node){
-    std::thread(&TestBridgeSendAndGet::listen_thread, this,node).detach();
+    std::thread(&TestBridgeSendAndGet::listen_thread,this).detach();
     std::thread(&TestBridgeSendAndGet::talker_thread, this,node).detach();
   }
 };
@@ -75,7 +77,7 @@ public:
 int main(int argc, char **argv){
   rclcpp::init(argc, argv);
   
-  auto node = rclcpp::Node::make_shared("test_msg_sub");
+  auto node = rclcpp::Node::make_shared("test_talk_to_ros1");
   std::unique_ptr<TestBridgeSendAndGet> testBridgeSendAndGet = std::make_unique<TestBridgeSendAndGet>(node);  
 
   rclcpp::spin(node);
