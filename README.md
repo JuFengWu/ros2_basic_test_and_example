@@ -47,5 +47,25 @@ This is a basic example and test for ros2
 4. In the third terminal, you can choose which node state do you want to move.<br/>
 :warning: Before choose the node state, please read the ros2 node life cycle design on [this page](http://design.ros2.org/articles/node_lifecycle.html). If you switch the node state without follow the rules, it will show up some errors or warnings.
 
+#### Run the ros1 ros2 bridge test
+:warning: Warning!!
+
+1. This test will use ros1, please make sure you have insatll ros1 in your computer.
+2. This test is not only use this project, but also use [this package](https://github.com/JuFengWu/tm_robot_ros2_ros1_bridge). Please follow the instruction to install the package. 
+---
+The steps are:
+1. Build this project.
+2. Open terminal and type ``ros2 run bridge_test test_send``
+3. Open a new terminal to create ros2 ros1_bridge by typing those cmds
+```
+. /opt/ros/melodic/setup.bash
+. /opt/ros/dashing/setup.bash
+export ROS_MASTER_URI=http://localhost:11311
+ros2 run ros1_bridge dynamic_bridge __log_disable_rosout:=true
+```
+4. Download [this project](https://github.com/JuFengWu/tm_robot_ros2_ros1_bridge) and follow this instruction to build and install this project.
+5. Open the other terminal and type ``roslaunch ros2_send_command_test test_bridge.launch``
+
+
 #### Others
 comming soon!
