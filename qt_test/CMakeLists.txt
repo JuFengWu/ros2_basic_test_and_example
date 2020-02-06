@@ -55,6 +55,7 @@ set(HEADERS
 )
 
 add_executable(my_qt_test src/qttest.cpp src/main.cpp ${UIC_FILES} ${HEADERS})
+
 ament_target_dependencies(my_qt_test
 	rclcpp
 	std_msgs
@@ -70,6 +71,17 @@ target_link_libraries(my_qt_test
 install(TARGETS
 	my_qt_test
 	DESTINATION lib/${PROJECT_NAME}
+)
+
+add_executable(ros_to_qt src/ros_pub_sub_to_qt.cpp)
+ament_target_dependencies(ros_to_qt
+	"std_msgs"
+	"rclcpp"
+)
+
+install(TARGETS
+ros_to_qt
+DESTINATION lib/${PROJECT_NAME}
 )
 
 ament_package()
