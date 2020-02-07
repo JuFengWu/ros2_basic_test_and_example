@@ -6,7 +6,12 @@ QTTest::QTTest(QWidget *parent) :
     ui(new Ui::QTTest)
 {
     ui->setupUi(this);
+#ifndef MergeRosAndQtWay
     rosThread = new RosThread(this);
+#else
+    rosThread = new RosThreadAndRun(this);
+#endif
+    
     connect(ui->sendButton, SIGNAL(clicked()), this, SLOT(click_send_button()));
     connect(this,SIGNAL(send_command_to_ros(std::string)) ,rosThread,SLOT(send_singal(std::string)));
     connect(rosThread,SIGNAL(print_meeage(std::string)),this,SLOT(show_messgae(std::string)));
@@ -37,9 +42,13 @@ void QTTest::show_messgae(std::string msg){
 }
 QTTest::~QTTest()
 {
+    rclcpp::shutdown();
+    rosThread->exit(0);
     delete ui;
     delete rosThread;
 }
+
+#ifndef MergeRosAndQtWay
 
 RosThread::RosThread(QObject *parent)
 :QThread (parent)
@@ -50,7 +59,6 @@ RosThread::RosThread(QObject *parent)
 
 void RosThread::run(){
   rclcpp::spin(rosCommnad);
-  rclcpp::shutdown();
 }
 
 void RosThread::send_singal(std::string msg){
@@ -58,3 +66,29 @@ void RosThread::send_singal(std::string msg){
   pubMsg.data = msg;
   rosCommnad->getPublisher()->publish(pubMsg);
 }
+
+#else
+RosThreadAndRun::RosThreadAndRun(QObject *parent)
+:QThread (parent)
+{
+  node = rclcpp::Node::make_shared("MergeRosAndQtWay");
+  publisher = node->create_publisher<std_msgs::msg::String>("from_qt",rclcpp::QoS(10));
+  subscription = node->create_subscription<std_msgs::msg::String>(
+		"to_qt",
+		10,
+		[&](const std_msgs::msg::String::SharedPtr msg) ->void {
+		  print_meeage(msg->data);
+		}
+	);
+}
+void RosThreadAndRun::run(){
+  
+  rclcpp::spin(node);
+  
+}
+void RosThreadAndRun::send_singal(std::string msg){
+  std_msgs::msg::String pubMsg;
+  pubMsg.data = msg;
+  publisher->publish(pubMsg);
+}
+#endif

@@ -9,10 +9,13 @@
 #include <QMessageBox>
 #include <string>
 
+#define MergeRosAndQtWay
+
+
 namespace Ui {
 class QTTest;
 }
-
+#ifndef MergeRosAndQtWay
 class RosCommand : public rclcpp::Node{
 public:
     RosCommand(std::function<void(std::string)> handle_function)
@@ -57,13 +60,40 @@ public slots:
  
 
 };
+#else
+
+class RosThreadAndRun: public QThread{
+Q_OBJECT
+
+public:
+    explicit RosThreadAndRun(QObject *parent = 0);
+    void run();
+    
+    bool Stop;
+
+signals:
+    void print_meeage(std::string msg);
+
+public slots:
+    void send_singal(std::string);
+private:
+    rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher;
+    rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscription;
+    rclcpp::Node::SharedPtr node;
+};
+
+#endif
 
 class QTTest : public QMainWindow
 {
     Q_OBJECT
 
 public:
+#ifndef MergeRosAndQtWay
     RosThread *rosThread;
+#else
+    RosThreadAndRun *rosThread;
+#endif
     explicit QTTest(QWidget *parent = nullptr);
     ~QTTest();
 private slots:
