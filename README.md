@@ -9,6 +9,15 @@ This is a basic example and test for ros2
 6. Type ``source /opt/ros/dashing/setup.bash ``.
 7. Type ``colocn build``.
 
+#### Dependencies:
+Because it have yaml test, please the following packages
+```
+libyaml-cpp0.5v5
+libyaml-cpp-dev
+```
+you can type ``sudo apt install libyaml-cpp0.5v5 libyaml-cpp-dev`` to install those packages.
+
+
 #### Run action
 1. Type ``ros2 run action_cpp action_member_functions_server`` to create a action server.
 2. Type ``ros2 run action_cpp not_composable_client`` to create a action client.
