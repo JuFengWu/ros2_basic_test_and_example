@@ -26,7 +26,9 @@ int main(int argc, char *argv[]){
   std::cout << "  node size: " << yamlConfig.size() << std::endl;
   std::cout << yamlConfig["bool_param"].as<bool>() << "\n";
 
-  
+  std::ofstream fout(position+"/script/save_file.yaml");
+  fout << yamlConfig;
+
   rclcpp::shutdown();
   return 0;
 }
